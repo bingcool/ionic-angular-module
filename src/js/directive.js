@@ -82,7 +82,7 @@ $ionicPlatform.registerBackButtonAction(function (e) {
 
 /**
 *rjHoldActive指令
-*定义列表按下产生一种数据动态效果
+*定义列表按下产生一种数据动态涟漪效果
 可以用在<ion-item>
 */
 .directive('rjHoldActive', ['$ionicGesture', '$timeout',function($ionicGesture, $timeout, $ionicBackdrop) {
@@ -206,7 +206,7 @@ resize-foot-bar 是定义的指令，rows='2' msd-elastic ng-model="foo"设置
                if (!ta) return;
                var taHeight = ta[0].offsetHeight;
                var newFooterHeight = taHeight + 10;
-               newFooterHeight = (newFooterHeight > 44) ? newFooterHeight : 44;
+               newFooterHeight = (newFooterHeight > 44 ) ? newFooterHeight : 44;
 
                //调整ion-footer-bar高度
                element[0].style.height = newFooterHeight + 'px';
