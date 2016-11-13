@@ -1,0 +1,25 @@
+/**
+*产生涟漪水波效果的样式
+*
+*/
+.item-ripple {
+    display: block; 
+    position: absolute;
+    background: hsla(0, 0%, 65%, 0.66);
+    border-radius: 90%;
+    transform: scale(0); 
+}
+.item-ripple.animate {
+  animation: itemripple 0.50s linear;
+}
+
+@-webkit-keyframes ripple {
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes itemripple {
+  100% {opacity: 0; transform: scale(1.5);}
+}
