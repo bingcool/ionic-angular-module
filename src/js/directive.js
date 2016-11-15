@@ -167,6 +167,77 @@ $ionicPlatform.registerBackButtonAction(function (e) {
         }, element);
       }
     };
+}])
+
+/**
+*floatingActionButton指令
+*实现用于浮动操作按钮，可以实现自定义位置和icon，点击函数，颜色等。使用之前要判断element元素的position位置。因为该按钮是绝对定位的。
+*css样色：
+span.fab-btn {
+    position: absolute;
+    bottom: 18px;
+    left: 15px;
+    width: 46px;
+    height:46px;
+    text-align: center;
+    line-height: 50px;
+    background: red;
+    box-shadow:0 5px 10px rgba(0,0,0,.5);
+    color: rgba(255,255,255,.75);
+    border-radius:50%;
+    font-size:25px;
+}
+*
+*用法：
+<ion-slide-box floating-action-button="ion-plus-circled" floating-action-button-bottom='15' floating-action-button-left="55" floating-action-button-click="go()">
+*floating-action-button：是定义icon图标
+*floating-action-button-click：点击函数，在父级作用域中绑定
+*/
+.directive('floatingActionButton',['$compile',function($compile) {
+  return {
+    scope: false,//共享父scope
+    restrict: 'A',
+    replace: false,
+    link: function(scope, element, attrs) {
+      if(angular.element(element).find('span').length == 0) {
+          var html = $compile('<span class="fab-btn" ng-click='+attrs.floatingActionButtonClick+'><i class='+attrs.floatingActionButton+'></span>')(scope);
+          angular.element(element).append(html);
+
+          var floatingActionButton = angular.element(element).find('span'); 
+
+          if(attrs.floatingActionButtonTop && attrs.floatingActionButtonLeft) {
+            floatingActionButton.css({
+              top: attrs.floatingActionButtonTop +'px',
+              left: attrs.floatingActionButtonLeft +'px'
+            });
+          }
+
+          if(attrs.floatingActionButtonTop && attrs.floatingActionButtonRight) {
+            floatingActionButton.css({
+              top: attrs.floatingActionButtonTop +'px',
+              right: attrs.floatingActionButtonRight +'px'
+            });
+          }
+          if(attrs.floatingActionButtonBottom && attrs.floatingActionButtonRight) {
+            floatingActionButton.css({
+              bottom: attrs.floatingActionButtonBottom +'px',
+              right: attrs.floatingActionButtonRight +'px'
+            });
+          }
+          if(attrs.floatingActionButtonBottom && attrs.floatingActionButtonLeft) {
+            floatingActionButton.css({
+              bottom: attrs.floatingActionButtonBottom +'px',
+              left: attrs.floatingActionButtonLeft +'px'
+            });
+          }
+          if(attrs.floatingActionButtonColor) {
+            floatingActionButton.css({
+              background: attrs.floatingActionButtonColor
+            })
+          }
+      }
+    }
+  };
 }]) 
 
 /**
