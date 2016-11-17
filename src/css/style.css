@@ -1,0 +1,96 @@
+/**
+*icon的图标点击产生一个圆形涟漪效果
+*关联指令iconClickRoundRipple
+*/
+.button-icon-span-ripple {
+    position: absolute;
+    background: saddlebrown;
+    display: block;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-radius: 100%;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+}
+.button-icon-span-ripple.animate {
+    -webkit-animation: iconripple .5s linear;
+    -moz-animation: iconripple .5s linear;
+    -ms-animation: iconripple .5s linear;
+    -o-animation: iconripple .5s linear;
+    animation: iconripple .5s linear
+}
+@-webkit-keyframes iconripple {
+    100%{
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+    }
+}
+@-moz-keyframes iconripple {
+    100%{
+    opacity: 0;
+    -moz-transform: scale(2.5);
+    }
+}
+@-o-keyframes iconripple {
+    100%{
+    opacity: 0;
+    -o-transform: scale(2.5);
+    }
+}
+@keyframes iconripple {
+    100%{
+    opacity: 0;
+    transform: scale(2.5);
+    }
+}
+
+/**
+*item点击产生涟漪水波效果的样式
+*关联指令itemClickRipple
+*/
+.item-ripple {
+    display: block; 
+    position: absolute;
+    background: hsla(0, 0%, 65%, 0.66);
+    border-radius: 90%;
+    transform: scale(0); 
+}
+.item-ripple.animate {
+  animation: itemripple 0.50s linear;
+}
+
+@-webkit-keyframes ripple {
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes itemripple {
+  100% {opacity: 0; transform: scale(1.5);}
+}
+
+/**
+*floating-action-button按钮的按钮样式
+*关联指令floatingActionButton
+*/
+span.fab-btn {
+    position: absolute;
+    bottom: 18px;
+    left: 15px;
+    width: 46px;
+    height:46px;
+    text-align: center;
+    line-height: 50px;
+    background: red;
+    box-shadow:0 5px 10px rgba(0,0,0,.5);
+    color: rgba(255,255,255,.75);
+    border-radius:50%;
+    font-size:25px;
+}
