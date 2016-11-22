@@ -57,7 +57,7 @@ currentImg: int
 imgClose: fn函数类型
 */
 
-.factory('actionImgShow', function($ionicLoading,$rootScope,$compile,$ionicBody,$ionicPlatform, $ionicHistory, $timeout) {
+.factory('actionImgShow', ['$ionicLoading','$rootScope','$compile','$ionicBody','$ionicPlatform','$ionicHistory','$timeout',function($ionicLoading,$rootScope,$compile,$ionicBody,$ionicPlatform, $ionicHistory, $timeout) {
 	var obj = {
 		element: null,
 		backbuttonRegistration: null
@@ -109,7 +109,7 @@ imgClose: fn函数类型
 	};
 
 	return actionImgShow;	
-})
+}])
 
 /**
 *actionScrollTop服务

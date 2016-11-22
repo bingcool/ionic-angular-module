@@ -77,7 +77,7 @@ angular.module('ng-self-service-directives', [])
 *实现双指捏放的放大和缩小功能。
 *
 */
-.directive('imgShow',function($compile,$timeout) {
+.directive('imgShow',['$compile','$timeout',function($compile, $timeout) {
     return {
       restrict: 'EA',
       transclude: true,
@@ -176,8 +176,7 @@ angular.module('ng-self-service-directives', [])
 
       }
     }
-})
-
+}])
 
 /**
 *基于material design的多功能浮动按钮服务指令集
@@ -221,7 +220,7 @@ angular.module('ng-self-service-directives', [])
 
 }])
 
-.directive('mfbButtonClose', function() {
+.directive('mfbButtonClose', [function() {
     return {
       restrict: 'A',
       require: '^mfbMenu',
@@ -236,7 +235,7 @@ angular.module('ng-self-service-directives', [])
       },
     };
 
-})
+}])
 
 .directive('mfbMenu', ['$rootScope','$timeout','$ionicModal','$ionicScrollDelegate','$window', function($rootScope, $timeout, $ionicModal,$ionicScrollDelegate, $window) {
     return {

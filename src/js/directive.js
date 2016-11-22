@@ -14,7 +14,7 @@ tabs-item-hide这个类是原本存在ionic.app.css文件中的，现在只是�
 
 <ion-view view-title="slidings" hide-tabs="true" hide-nav-bar='true'>
 */
-.directive('hideTabs', function($rootScope) {
+.directive('hideTabs', ['$rootScope',function($rootScope) {
     return {
         restrict: 'A',
         link: function(scope, element, attributes) {
@@ -33,7 +33,7 @@ tabs-item-hide这个类是原本存在ionic.app.css文件中的，现在只是�
             });
         }
     };
-})
+}])
 
 /**
 *keyboardshows指令
@@ -60,7 +60,7 @@ $ionicPlatform.registerBackButtonAction(function (e) {
       }  
   }, 101);
 */
-.directive('keyboardshow', function($timeout, $cordovaKeyboard) {
+.directive('keyboardshow', ['$timeout','$cordovaKeyboard',function($timeout, $cordovaKeyboard) {
     return {
         restrict: 'A',
         link: function(scope, element, attributes) {
@@ -78,7 +78,7 @@ $ionicPlatform.registerBackButtonAction(function (e) {
 
         }
     };
-})
+}])
 
 /**
 *rjHoldActive指令
@@ -109,8 +109,7 @@ $ionicPlatform.registerBackButtonAction(function (e) {
 
             }
         };
-    }
-])
+}])
 
 /**
 *itemClickRipple指令
@@ -320,6 +319,109 @@ span.fab-btn {
       }
     }
   };
+}])
+
+/**
+*translucentBar指令
+*实现沉浸式底部导航栏
+*用法：
+<ion-content delegate-handle="mycontent">
+  ......
+</ion-content>
+
+<ion-header-bar align-title="center" no-tap-scroll='true' translucent-bar="mycontent" translucent-color-opacity="0.01" translucent-color="rgb(238, 187, 17)" translucent-scroll-maxtop="88"> 
+  <div class="buttons">
+    <button class="button button-icon icon ion-navicon" icon-click-round-ripple icon-round-ripple-width="20" icon-round-ripple-color="red" style="color:white"></button>
+  </div>
+  <h1 class="title" style="color:white">Dashboard</h1>
+  <div class="buttons">
+     <button class="button button-icon icon ion-android-notifications" head-red-point='true' icon-click-round-ripple style="color:white"></button>
+  </div>
+</ion-header-bar>
+*
+1)要把原理view的默认header隐藏掉，<ion-view view-title="Dashboard" hide-nav-bar='true'>
+2)重新定义的<ion-header-bar>要放在</ion-content>之后，因为首先要编译ion-content指令，translucentBar指令才能从继承的父级作用域中获取ion-content的scope.$$childHead.$onScroll函数，所以<ion-header-bar>必须放在</ion-content>之后。
+3)可配置的参数
+translucent-bar："mycontent"  // 与<ion-content delegate-handle="mycontent">相同,指定操作的视图对象
+translucent-color-opacity："0.01" //header初始化的颜色的初始透明度，默认0.01
+translucent-color："rgb(238, 187, 17)" //header的颜色值
+translucent-scroll-maxtop："88" //滚动条移至多少px时开始停止渐变透明.默认88
+translucent-color-total:"90"    //计算透明度的分母，默认90
+
+*透明度值= translucent-scroll-maxtop / translucent-color-total 
+translucent-scroll-maxtop是滚动距离顶部距离，动态数值。
+
+*对于需要在header中的button图标的颜色设置，可以设置style="color:white"
+eg:<h1 class="title" style="color:white">Dashboard</h1>
+<div class="buttons">
+     <button class="button button-icon icon ion-android-notifications" head-red-point='true' icon-click-round-ripple style="color:white"></button>
+</div>
+*/
+.directive('translucentBar', ['$ionicScrollDelegate',function($ionicScrollDelegate) {
+  return {
+    scope:false,
+    restrict: 'A',
+    replace: false,
+    link: function(scope, element, attrs) {
+
+      var el = angular.element(element);
+
+      var ion = angular.element(element).parent().find('ion-content').css({
+          top:'0',
+      });
+
+      var delegateHandle = attrs.translucentBar;
+      var translucentColorOpacity = attrs.translucentColorOpacity;
+      var translucentColor  = attrs.translucentColor;
+      var translucentScrollMaxtop = attrs.translucentScrollMaxtop;
+      var translucentColorTotal   = attrs.translucentColorTotal;
+      
+      if(!delegateHandle) {
+        throw new('please dingfine the ion-content of delegate-handle');
+      }
+      if(!translucentColorOpacity) {
+        throw new('you must set translucentColorOpacity directive of the value');
+      }
+      if(!translucentColor) {
+        throw new('you must set translucentColor directive of the value');
+      }
+
+      if(!translucentScrollMaxtop) {
+        translucentScrollMaxtop = 88;
+      }
+
+      if(!translucentColorTotal) {
+        translucentColorTotal = 90;
+      }
+
+      var rgb = translucentColor.substring(4,translucentColor.length-1);
+
+      var initCss = {
+        'background': "rgba("+rgb+","+translucentColorOpacity+")",
+      }
+
+      el.css(initCss);
+
+      var scroollTop = null;
+      var distance = null;
+      var opacity  = null;
+      var translucentCss = null;
+
+      scope.$$childHead.$onScroll = function() {
+        distance   = $ionicScrollDelegate.$getByHandle(delegateHandle).getScrollPosition();
+        scroollTop = distance.top;
+        
+        if(scroollTop <= translucentScrollMaxtop) {
+            opacity = scroollTop / translucentColorTotal;
+            translucentCss = {
+                'background': "rgba("+rgb+","+opacity+")",
+            };
+
+           el.css(translucentCss); 
+        }  
+      }
+    }
+  };
 }]) 
 
 /**
@@ -404,7 +506,7 @@ span.fab-btn {
 可以参考https://github.com/bingcool/angular-elastic
 resize-foot-bar 是定义的指令，rows='2' msd-elastic ng-model="foo"设置
 */
-.directive('resizeFootBar', function(){
+.directive('resizeFootBar', [function(){
    // Runs during compile
    return {
       scope: false,
@@ -424,7 +526,7 @@ resize-foot-bar 是定义的指令，rows='2' msd-elastic ng-model="foo"设置
            });
        }
    };
-})
+}])
 
 /**
 *tabRedPoint指令
@@ -446,7 +548,7 @@ resize-foot-bar 是定义的指令，rows='2' msd-elastic ng-model="foo"设置
 说明：设置class="tab-red-point-account"是一个唯一的类，使用时设置成不同于其他tab的类
 tab-red-point='isShowRedPoint'中isShowRedPoint是一个变量（可以自己定义，在控制器中对应赋值即可），由控制器的$scope.isShowRedPoint = true,或者false赋值决定是否显示红点
 */
-.directive('tabRedPoint', function($compile, $timeout){
+.directive('tabRedPoint', ['$compile','$timeout',function($compile, $timeout){
    // Runs during compile
    return {
       restrict: 'A', 
@@ -466,7 +568,7 @@ tab-red-point='isShowRedPoint'中isShowRedPoint是一个变量（可以自己定
                      
        }
    };
-})
+}])
 
 /**
 *headRedPoint指令
@@ -476,7 +578,7 @@ tab-red-point='isShowRedPoint'中isShowRedPoint是一个变量（可以自己定
 <button class="button button-icon" ng-click="popovershow()" head-red-point='isShowRedPoint' ><i class="icon ion-android-notifications"></i></button>
 说明：tab-red-point='isShowRedPoint'中isShowRedPoint是一个变量(可以自己定义，在控制器中对应赋值即可)，由控制器的$scope.isShowRedPoint = true,或者false赋值决定是否显示红点
 */
-.directive('headRedPoint', function($compile, $timeout){
+.directive('headRedPoint',['$compile','$timeout',function($compile, $timeout){
    // Runs during compile
    return {
       restrict: 'A', 
@@ -492,7 +594,7 @@ tab-red-point='isShowRedPoint'中isShowRedPoint是一个变量（可以自己定
                      
        }
    };
-})
+}])
 
 /**
 *hideShowNavBar指令
@@ -518,7 +620,7 @@ hide-nav-bar这个指令设置值为false,表示不隐藏父级导航条，直�
 *hide-nav-bar='true'设置为true，在<ion-view>下面重新定义<ion-header-bar>标签内容即可
 *
 */
-.directive('hideShowNavBar', function($compile, $timeout,$ionicGesture){
+.directive('hideShowNavBar', ['$compile','$timeout','$ionicGesture',function($compile, $timeout,$ionicGesture){
    // Runs during compile
    return {
       restrict: 'A', 
@@ -588,7 +690,7 @@ hide-nav-bar这个指令设置值为false,表示不隐藏父级导航条，直�
                      
        }
    };
-});
+}]);
 
 
 })(window, angular);
