@@ -82,25 +82,34 @@ angular.module('ng-self-service-directives', [])
       restrict: 'EA',
       transclude: true,
       replace: false,
-      scope:false,
-      link:function($scope,$element,$attrs) {
+      require: '^?imgSlideLarge',
+      scope:true,
+      link:function($scope,$element,$attrs,$imgSlideCtrl) {
         if($scope.largeImg.imgsrc != undefined) {
-       	 	//图片的数组，没有预加载。 
+          //图片的数组，没有预加载。 
           angular.element($element).append('<img src='+$scope.largeImg.imgsrc+'>').css({
-            "background-color":"rgba(5, 5, 5, 5.96)"
+            "background-color":"rgba(5, 5, 5, 5.96)",
           });
         }else {
-        	//预加载图片数据
+          //预加载图片数据
           angular.element($element).append($scope.largeImg).css({
-            "background-color":"rgba(5, 5, 5, 5.96)"
-          });
+            "background-color": "rgba(5, 5, 5, 5.96)",
+          }); 
         }
 
-        angular.element(document.querySelector('div.img-bar-footer')).css({
-          'height':"20%",
-          'background-color':"rgb(5, 5, 5)",
-          "background-size":'100% 0'
+        var this_img = angular.element($element).find('img').css({
+            "transform-origin":"50% 50%",
+            "-webkit-transform": "scale(1,1)",
+            "transform":"scale(1,1)",
+            "transition": "all 100ms linear",
         });
+
+        var this_imgbar = angular.element(document.querySelector('div.img-bar-footer')).css({
+            'height':"20%",
+            'background-color':"rgb(5, 5, 5)",
+            "background-size":'100% 0'
+        });
+ 
         /**
         *创建一个hammer对象
         */
@@ -114,10 +123,6 @@ angular.module('ng-self-service-directives', [])
         // 缩放中心点
         var pinchX = 0;
         var pinchY = 0;
-
-        var this_img = angular.element($element).find('img');
-
-        var this_imgbar = angular.element(document.querySelector('div.img-bar-footer'));
 
         hammer.on("pinchstart",function (e) {
           // 缩放中心点
@@ -157,34 +162,34 @@ angular.module('ng-self-service-directives', [])
         *捏合缩小，回弹原来大小
         */
         hammer.on("pinchin", function (e) {
+          var scale = e.scale.toFixed(2) * initScale;
 
-            var scale = e.scale.toFixed(2) * initScale;
-
-            if(scale <= 0.8) {
-              this_img.css({
-                "transform-origin": "50% 50%",
-                "-webkit-transform": "scale(0.8,0.8)",
-                "transform": "scale(0.8,0.8)",
-                "transition": "all 200ms linear",
-              });
-
-              initScale = 0.8;
-
-            }else {
-              this_img.css({
-                "transform-origin": "50% 50%",
-                "-webkit-transform": "scale("+scale+","+scale+")",
-                "transform": "scale("+scale+","+scale+")",
-                "transition": "all 200ms linear",
-              });
-
-              initScale = scale;
-            }
-            // 设置footer不透明
-            this_imgbar.css({
-              "opacity":"1",
+          if(scale <= 0.8) {
+            this_img.css({
+              "transform-origin": "50% 50%",
+              "-webkit-transform": "scale(0.8,0.8)",
+              "transform": "scale(0.8,0.8)",
+              "transition": "all 200ms linear",
             });
-        });
+
+            initScale = 0.8;
+
+          }else {
+            this_img.css({
+              "transform-origin": "50% 50%",
+              "-webkit-transform": "scale("+scale+","+scale+")",
+              "transform": "scale("+scale+","+scale+")",
+              "transition": "all 200ms linear",
+            });
+
+            initScale = scale;
+          }
+          // 设置footer不透明
+          this_imgbar.css({
+            "opacity":"1",
+          });
+      });
+
 
         /**
         *
@@ -222,39 +227,49 @@ angular.module('ng-self-service-directives', [])
         *左滑动事件
         *图片恢复缩放
         */
-        $ionicGesture.on('swipeleft',function() {
-          if(initScale >1) {
-            this_img.css({
-              "transform-origin":"50% 50%",
-              "-webkit-transform": "scale(1,1)",
-              "transform": "scale(1,1)",
-              "transition": "all 100ms linear",
-            });
+        var swipeleftFn = function() {
+            if(initScale >1) {
+              this_img.css({
+                "transform-origin":"50% 50%",
+                "-webkit-transform": "scale(1,1)",
+                "transform": "scale(1,1)",
+                "transition": "all 100ms linear",
+              });
+              initScale = 1;
+            }
 
-            initScale = 1;
-          }
+          };
+        var swipeleft = $ionicGesture.on('swipeleft', swipeleftFn, this_img);
 
-        },this_img);
-
-         /**
+        /**
         *右滑动事件
         *图片恢复缩放
         */
-        $ionicGesture.on('swiperight',function() { 
-          if(initScale >1) {
-            this_img.css({
-              "transform-origin":"50% 50%",
-              "-webkit-transform": "scale(1,1)",
-              "transform":"scale(1,1)",
-              "transition": "all 100ms linear",
-            });
-            initScale = 1;
-          }
+        var swiperightFn = function() { 
+              if(initScale >1) {
+                this_img.css({
+                  "transform-origin":"50% 50%",
+                  "-webkit-transform": "scale(1,1)",
+                  "transform":"scale(1,1)",
+                  "transition": "all 100ms linear",
+                });
+                initScale = 1;
+            }
+          };
 
-        },this_img);
+        var swiperight = $ionicGesture.on('swiperight', swiperightFn, this_img);
+
+        // 销毁作用域时解绑手势事件
+        $scope.$on("$destroy", function() {
+            $ionicGesture.off(swipeleft, 'swipeleft', swipeleftFn);
+            $ionicGesture.off(swiperight, 'swiperight', swiperightFn);
+            $scope.$destroy();
+        });
+
 
       }
     }
+
 }])
 
 /**
@@ -275,7 +290,7 @@ angular.module('ng-self-service-directives', [])
 .run(['$templateCache', function($templateCache) {
     $templateCache.put('ng-mfb-menu-default.tpl.html',
       '<ul class="mfb-component--{{::position}} mfb-{{::targetButton}} mfb-{{::effect}}"' +
-      '    data-mfb-toggle="{{::togglingMethod}}" data-mfb-state="{{::menuState}}" data-mfb-single="{{::single}}">' +
+      '    data-mfb-toggle="{{::togglingMethod}}" data-mfb-state="{{menuState}}" data-mfb-single="{{::single}}">' +
       '  <li class="mfb-component__wrap">' +
       '    <a ng-click="clicked()" ng-mouseenter="hovered()" ng-mouseleave="hovered()"' +
       '       ng-attr-data-mfb-label="{{::label}}" class="mfb-component__button--main">' +

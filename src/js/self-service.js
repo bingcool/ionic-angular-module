@@ -60,7 +60,8 @@ imgClose: fn函数类型
 .factory('actionImgShow', ['$ionicLoading','$rootScope','$compile','$ionicBody','$ionicPlatform','$ionicHistory','$timeout',function($ionicLoading,$rootScope,$compile,$ionicBody,$ionicPlatform, $ionicHistory, $timeout) {
 	var obj = {
 		element: null,
-		backbuttonRegistration: null
+		backbuttonRegistration: angular.noop,
+		scope: null
 	};
 	var fns = {
 		showLargeImg: function(opts) {
@@ -93,11 +94,20 @@ imgClose: fn函数类型
 
 		closeLargeImg: function() {
 			this.imgIsShow = false;
+			// 销毁作用域
+			obj.scope.$destroy();
+
 			obj.element.remove();
 			// 执行该注销该后退按钮动作的函数
 			if(obj.backbuttonRegistration) {
 				obj.backbuttonRegistration();	
-			}	
+			}
+
+			obj = {
+				element: null,
+				backbuttonRegistration: angular.noop,
+				scope: null
+			};	
 		},
 		
 	};
@@ -202,7 +212,7 @@ getByHandle:'view-'+ Math.random(100,999) 不用改，任意一个值
 				*顶部按钮的html元素可以定义一个唯一类
 				*在关闭时可以移除该按钮
 				*/
-				globle.element = 'ul.mfb-'+scope.getByHandle;
+				gloable.element = 'ul.mfb-'+scope.getByHandle;
 		
 				/**
 				*targetView和getByHandle为两个必设参数。
@@ -300,17 +310,17 @@ getByHandle:'view-'+ Math.random(100,999) 不用改，任意一个值
 				*移除回到顶部按钮
 				*/
 				actionScrollTop.isShowScrollButton = false;
-				angular.element(document.querySelector(globle.element)).remove();
+				angular.element(document.querySelector(gloable.element)).remove();
 			}
 		};
 		/**
 		*返回的对象函数
 		*/
 		var actionScrollTop = {
-			'showScrollButton':fns.show,
-			'showModal':fns.showModal,
-			'goView':fns.goView,
-			'close':fns.close,
+			'showScrollButton':fns.show || angular.noop,
+			'showModal':fns.showModal || angular.noop,
+			'goView':fns.goView || angular.noop,
+			'close':fns.close || angular.noop,
 			'isShowScrollButton':false,
 		};
 
