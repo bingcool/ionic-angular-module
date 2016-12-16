@@ -79,6 +79,7 @@ imgClose: fn函数类型
     		actionImgShow.imgIsShow = true;
 
     		obj.element = element;
+    		obj.scope = scope;
 			// 返回一个注销该后退按钮动作的函数
 			obj.backbuttonRegistration = $ionicPlatform.registerBackButtonAction(function(e) {
 		        e.preventDefault();
@@ -184,7 +185,7 @@ getByHandle:'view-'+ Math.random(100,999) 不用改，任意一个值
 
 .factory('actionScrollTop', ['$rootScope','$compile','$ionicScrollDelegate', function($rootScope,$compile,$ionicScrollDelegate){
 		
-		var globle = {
+		var gloable = {
 			element: null,
 		};
 		var fns = {

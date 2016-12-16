@@ -119,10 +119,10 @@ angular.module('ng-self-service-directives', [])
         /**
         *捏开点监听
         */
-        var initScale = 1;
-        // 缩放中心点
-        var pinchX = 0;
-        var pinchY = 0;
+        var initScale = 1,
+            // 缩放中心点
+            pinchX    = 0,
+            pinchY    = 0;
 
         hammer.on("pinchstart",function (e) {
           // 缩放中心点
