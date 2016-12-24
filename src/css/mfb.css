@@ -161,14 +161,27 @@
 /**
  * These are the basic styles for all the icons inside the main button
  */
-.mfb-component__icon, .mfb-component__main-icon--active,
+.mfb-component__icon,
 .mfb-component__main-icon--resting, .mfb-component__child-icon {
   position: absolute;
   font-size: 18px;
   text-align: center;
   /*设置按钮圆形中的图标大小*/
   line-height: 46px;
-  width: 100%; }
+  width: 100%;
+  top:8px;
+}
+
+.mfb-component__main-icon--resting,
+.mfb-component__main-icon--active {
+  position: absolute;
+  font-size: 18px;
+  text-align: center;
+  /*设置主按钮圆形中的图标大小*/
+  line-height: 46px;
+  width: 100%;
+  top:10px;
+}
 
 .mfb-component__wrap {
   padding: 0;
