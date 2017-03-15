@@ -3,47 +3,47 @@
 
 每一个指令和service都在代码中详细说明，包括代码和具体用法
 
-![ionic](/src/gif/1.gif "ionic")
+![ionic](/src/gif/test1.gif "ionic")
 <br/>
-![ionic](/src/gif/2.gif "ionic")
+![ionic](/src/gif/test2.gif "ionic")
 <br/>
-![ionic](/src/gif/4.gif "ionic")
+![ionic](/src/gif/test4.gif "ionic")
 <br/>
-![ionic](/src/gif/5.gif "ionic")
+![ionic](/src/gif/test5.gif "ionic")
 <br/>
-![ionic](/src/gif/7.gif "ionic")
+![ionic](/src/gif/test7.gif "ionic")
 <br/>
-![ionic](/src/gif/9.gif "ionic")
+![ionic](/src/gif/test9.gif "ionic")
 <br/>
-![ionic](/src/gif/13.gif "ionic")
+![ionic](/src/gif/test13.gif "ionic")
 <br/>
-![ionic](/src/gif/17.gif "ionic")
+![ionic](/src/gif/test17.gif "ionic")
+<br/>test
+![ionic](/src/gif/test18.gif "ionic")
 <br/>
-![ionic](/src/gif/18.gif "ionic")
+![ionic](/src/gif/test19.gif "ionic")
 <br/>
-![ionic](/src/gif/19.gif "ionic")
+![ionic](/src/gif/test20.gif "ionic")
 <br/>
-![ionic](/src/gif/20.gif "ionic")
+![ionic](/src/gif/test21.gif "ionic")
 <br/>
-![ionic](/src/gif/21.gif "ionic")
+![ionic](/src/gif/test22.gif "ionic")
 <br/>
-![ionic](/src/gif/22.gif "ionic")
+![ionic](/src/gif/test23.gif "ionic")
 <br/>
-![ionic](/src/gif/23.gif "ionic")
+![ionic](/src/gif/test27.gif "ionic")
 <br/>
-![ionic](/src/gif/27.gif "ionic")
+![ionic](/src/gif/test29.gif "ionic")
 <br/>
-![ionic](/src/gif/29.gif "ionic")
+![ionic](/src/gif/test30.gif "ionic")
 <br/>
-![ionic](/src/gif/30.gif "ionic")
+![ionic](/src/gif/test31.gif "ionic")
 <br/>
-![ionic](/src/gif/31.gif "ionic")
+![ionic](/src/gif/test38.gif "ionic")
 <br/>
-![ionic](/src/gif/38.gif "ionic")
+![ionic](/src/gif/test40.gif "ionic")
 <br/>
-![ionic](/src/gif/40.gif "ionic")
-<br/>
-![ionic](/src/gif/42.gif "ionic")
+![ionic](/src/gif/test42.gif "ionic")
 <br/>
 
 
