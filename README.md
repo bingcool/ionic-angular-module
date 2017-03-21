@@ -5,6 +5,8 @@ ionic1.x是一个非常优秀的移动端框架，基于angularjs1.x实现，基
 
 每一个指令和service都在代码中详细说明，包括代码和具体用法。
 
+也可以参考博客http://blog.csdn.net/u012979009?viewmode=list，选择左边文章分类“ionic框架”，可以查看博客详细说明
+
 ### （1）顶部评论框自动换行以及自动高度
 ![ionic](/src/gif/test1.gif "ionic")
 <br/>
