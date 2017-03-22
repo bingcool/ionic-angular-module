@@ -1,5 +1,5 @@
 # ionic-angular-module
-ionic1.x是一个非常优秀的移动端框架，基于angularjs1.x实现，基本上整合了app或者webapp常用的组件功能，本人在ionic1的基楚上，结合material的设计风格，整合一些常用功能的指令以及module。
+ionic1.x是一个非常优秀的移动端框架，基于angularjs1.x实现，基本上整合了app或者webapp常用的组件功能，本人在ionic1的基础上，结合material的设计风格，整合一些常用功能的指令以及module。
 
 基于angular实现的ionic框架的各种material design的功能综合模块。
 
@@ -8,7 +8,7 @@ ionic1.x是一个非常优秀的移动端框架，基于angularjs1.x实现，基
 也可以参考博客http://blog.csdn.net/u012979009?viewmode=list             
 选择左边文章分类“ionic框架”，可以查看博客详细说明
 
-### （1）顶部评论框自动换行以及自动高度
+### （1）底部评论框自动换行以及自动高度
 ![ionic](/src/gif/test1.gif "ionic")
 <br/>
 ### （2）基于material的fab以及子菜单
